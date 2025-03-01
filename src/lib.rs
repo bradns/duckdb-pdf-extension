@@ -13,6 +13,7 @@ use std::{
     error::Error,
     ffi::CString,
     sync::atomic::{AtomicBool, Ordering},
+    fs::read_dir,
 };
 
 #[repr(C)]
@@ -50,9 +51,15 @@ impl VTab for HelloVTab {
             output.set_len(0);
         } else {
             let vector = output.flat_vector(0);
-            let result = CString::new(format!("Rusty Quack {} 🐥", bind_data.name))?;
-            vector.insert(0, result);
-            output.set_len(1);
+            let mut pos = 0;
+            for entry in read_dir(bind_data.name.clone())? {
+                let entry = entry?;
+                let path = entry.path();
+                let result = CString::new(path.into_os_string().into_string().unwrap())?;
+                vector.insert(pos, result);
+                pos += 1;
+            }
+            output.set_len(pos);
         }
         Ok(())
     }
