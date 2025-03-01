@@ -55,7 +55,7 @@ impl VTab for HelloVTab {
             for entry in read_dir(bind_data.name.clone())? {
                 let entry = entry?;
                 let path = entry.path();
-                let result = CString::new(path.into_os_string().into_string().unwrap())?;
+                let result = CString::new(path.to_string_lossy().to_string().replace('\\', "/"))?;
                 vector.insert(pos, result);
                 pos += 1;
             }
