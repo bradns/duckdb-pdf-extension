@@ -4,7 +4,7 @@
 
 # Before we load the extension, this will fail
 statement error
-SELECT rusty_quack('Sam');
+SELECT rusty_quack('test');
 ----
 Catalog Error: Scalar Function with name rusty_quack does not exist!
 
@@ -15,6 +15,6 @@ require icu
 
 # Confirm the extension works
 query I
-SELECT * from rusty_quack('Sam');
+SELECT * from rusty_quack('test');
 ----
-Rusty Quack Sam 🐥
+test/sql
