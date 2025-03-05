@@ -17,4 +17,4 @@ require icu
 query I
 SELECT * from pdf('test');
 ----
-test/sql 
+test/sql
